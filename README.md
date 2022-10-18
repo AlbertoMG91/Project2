@@ -67,9 +67,9 @@ POST   | /date/profile/:id| YES   | admin | Make an appointment|   `date`       
 GET    | /date/fleet      | YES   | user | Get fleet contact  |     `id`                                        | {contact}
 GET    | /date/profile    | YES   | user | Get Own date info  |   `id`                                          | {date}
 PUT    | /date/profile/:id| YES   | user | Modify own appointment|   `date`                                     | {msg: string, date:date}
-PUT    | /date/profile/:id| YES   | admin | Modify an appointment|   `date`                                     | {msg: string, date:date}
+PUT    | /date/:id        | YES   | admin | Modify an appointment|   `date`                                     | {msg: string, date:date}
 DELETE | /date/profile/:id| YES   | user | Delete own appointment|                                              | {msg: string}
-DELETE | /date/profile/:id| YES   | admin | Delete an appointment|                                              | {msg: string}
+DELETE | /date/:id        | YES   | admin | Delete an appointment|                                              | {msg: string}
 
 ### Fleet Endpoints
 
