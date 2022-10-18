@@ -21,19 +21,19 @@ PUT    | /user/:id       | YES   | admin | Update One User     |   `userName`, `
 DELETE | /user/profile   | YES   | user  | Delete Own Profile  |                                                | {msg: string}
 DELETE | /user/:id       | YES   | admin | Delete One Profile  |                                                | {msg: string}
 
-### Adress Endpoints
+### Address Endpoints
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                               | RETURNS
 -------|------------------|-------|------|--------------------|-------------------------------------------------|--------------------
-POST   | /adress/profile  | YES   | user | Create own adress  |`street`,`number`,`flat`,`PC`,`city`             | {msg: string, adress}
-POST   | /adress/profile/:id| YES | admin| Create an adress   |`street`,`number`,`flat`,`PC`,`city`             | {msg: string, adress}
-GET    | /adress/container| YES   | user | Get nearby container adress|                                         | [{containers adress}]
-GET    | /adress/profile  | YES   | user | Get own adress     |                                                 | {user adress}
-GET    | /adress/         | YES   | admin | Get all addresses |                                                 | [{adress}]
-GET    | /adress/:id      | YES   | admin | Get one adress    |                                                 | {adress}
-PUT    | /adress/profile  | YES   | user | Update Own Adress  |  `Adress`                                       | {msg: string, {adress}}
-PUT    | /adress/:id      | YES   | admin | Update One User Adress|   `adress`                                  | {msg: string, {adress}}
-DELETE | /adress/:id      | YES   | admin | Delete One User Adress|                                             | {msg: string}
+POST   | /address/profile  | YES   | user | Create own address  |`street`,`number`,`flat`,`PC`,`city`             | {msg: string, adress}
+POST   | /address/profile/:id| YES | admin| Create an address   |`street`,`number`,`flat`,`PC`,`city`             | {msg: string, adress}
+GET    | /address/container| YES   | user | Get nearby container address|                                         | [{containers adress}]
+GET    | /address/profile  | YES   | user | Get own address     |                                                 | {user adress}
+GET    | /address/         | YES   | admin | Get all addresses |                                                  | [{adress}]
+GET    | /address/:id      | YES   | admin | Get one address    |                                                 | {adress}
+PUT    | /address/profile  | YES   | user | Update Own Address  |  `Address`                                      | {msg: string, {adress}}
+PUT    | /address/:id      | YES   | admin | Update One User Address|   `address`                                 | {msg: string, {adress}}
+DELETE | /address/:id      | YES   | admin | Delete One User Address|                                             | {msg: string}
 
 ### Container Endpoints
 
