@@ -1,14 +1,17 @@
 const User = require ('../models/user.model')
 
+require('dotenv').config()
 const bcrypt = require ('bcrypt')
 const jwt = require ('jsonwebtoken')
+const jwtr = require ('jwt-redis').default
+const redis = require ('redis')
 
 async function signup (req, res) {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, 10)
     const user = await User.create( req.body,
       { 
-        fields: ['userName', 'email', 'password']
+        fields: ['userName', 'email', 'password', 'phone']
       })
 
     const payload = { email: user.email }
@@ -43,7 +46,17 @@ async function login (req, res) {
   }
 }
 
+async function logout(req, res) {
+  try {
+    await jwtr.destroy('token', process.env.SECRET)
+    return res.send('Logout successfully')
+  } catch (error) {
+    res.status(500).send(error.message)
+  }
+}
+
 module.exports = {
   signup,
-  login
+  login,
+  logout
 }
