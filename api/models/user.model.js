@@ -31,9 +31,6 @@ const User = sequelize.define(
             type: DataTypes.INTEGER,
             unique: true
         },
-        address: {
-            type: DataTypes.INTEGER
-        },
         digitalWallet: {
             type: DataTypes.INTEGER,
             defaultValue: 0

@@ -65,7 +65,7 @@ async function logout(req, res) {
       const payload = { email: user.email }
       const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '1s' })
 
-      return res.status(200)./*send('Logged out') */json({ token: token }) 
+      return res.status(200).json({ msg:'Logged out', token: token }) 
   } catch (error) {
     res.status(500).send(error.message)
   }
