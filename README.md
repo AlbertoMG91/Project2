@@ -4,7 +4,7 @@
 
 METHOD | ENDPOINT         | TOKEN | ROLE | DESCRIPTION              | POST PARAMS                               | RETURNS
 -------|------------------|-------|------|---------------------|------------------------------------------------|--------------------
-POST   | /auth/signup     | -     | user | User Signup         | `username`, `email`, `password`,`phone`        | {msg: string, token: token }
+POST   | /auth/signup     | -     | user | User Signup         | `name`, `email`, `password`,`phone`            | {msg: string, token: token }
 POST   | /auth/login      | -     | user | Login               | `email`, `password`                            | {msg: string}
 POST   | /auth/logout     | -     | user | Logout              |                                                | {msg: string}
 
@@ -16,8 +16,8 @@ METHOD | ENDPOINT         | TOKEN | ROLE  | DESCRIPTION        | POST PARAMS    
 GET    | /user/profile    | YES   | user  | Get Own Profile    |                                                 | {user}
 GET    | /user            | YES   | admin | Get All Users      | `query params`                                  | [{users}]
 GET    | /user/:id        | YES   | admin | Get One User       |                                                 | {user}
-PUT    | /user/profile    | YES   | user  | Update Own Profile |  `userName`, `email`,`phone`,`password`         | {msg: string, {profile}}
-PUT    | /user/:id        | YES   | admin | Update One User    |   `userName`, `email`, `password`,`phone`       | {msg: string, {profile}}
+PUT    | /user/profile    | YES   | user  | Update Own Profile |  `name`, `email`,`phone`,`password`             | {msg: string, {profile}}
+PUT    | /user/:id        | YES   | admin | Update One User    |   `name`, `email`, `password`,`phone`           | {msg: string, {profile}}
 DELETE | /user/profile    | YES   | user  | Delete Own Profile |                                                 | {msg: string}
 DELETE | /user/:id        | YES   | admin | Delete One Profile |                                                 | {msg: string}
 

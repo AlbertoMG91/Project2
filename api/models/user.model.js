@@ -4,7 +4,11 @@ const {sequelize } = require ('../../database')
 const User = sequelize.define(
     'user',
     {
-        userName: {
+        role: {
+            type: DataTypes.ENUM ('user', 'admin'),
+            defaultValue: 'user'
+        },
+        name: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -37,10 +41,6 @@ const User = sequelize.define(
         rankingPoints: {
             type: DataTypes.INTEGER,
             defaultValue: 0
-        },
-        role: {
-            type: DataTypes.ENUM ('user', 'admin'),
-            defaultValue: 'user'
         }
     },
     { timestamps: false }

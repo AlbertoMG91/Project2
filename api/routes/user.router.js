@@ -1,15 +1,20 @@
 const router = require('express').Router()
+const { checkAuth, checkRole } = require('../utils')
 
 const {
-//   getAllUsers,
-//   getUserById,
-//   updateUserById,
-//   deleteUserById
+  getOwnProfile,
+  updateOwnProfile,
+  getAllUsers,
+  getUserById,
+  updateUserById,
+  deleteUserById
 } = require('../controllers/user.controller')
 
-// router.get('/', getAllUsers)
-// router.get('/:id', getUserById)
-// router.put('/:id', updateUserById)
-// router.delete('/:id', deleteUserById)
+router.get('/profile', checkAuth, getOwnProfile)
+router.get('/', checkAuth, checkRole, getAllUsers)
+router.get('/:id', checkAuth, checkRole, getUserById)
+router.put('/:id', checkAuth, checkRole, updateUserById)
+router.patch('/profile', checkAuth, updateOwnProfile)
+router.delete('/:id', checkAuth, checkRole, deleteUserById)
 
 module.exports = router

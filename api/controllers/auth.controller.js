@@ -11,7 +11,7 @@ async function signup (req, res) {
     req.body.password = bcrypt.hashSync(req.body.password, 10)
     const user = await User.create( req.body,
       { 
-        fields: ['userName', 'email', 'password', 'phone']
+        fields: ['name', 'email', 'password', 'phone']
       })
 
     const payload = { email: user.email }
@@ -39,7 +39,14 @@ async function login (req, res) {
       const payload = { email: user.email }
       const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' })
 
-      return res.status(200).json({ email: user.email, token: token })
+      return res.status(200).json({ 
+        name: user.name, 
+        email: user.email, 
+        phone: user.phone, 
+        address: user.address, 
+        digitalWallet: user.digitalWallet, 
+        rankingPoints: user.rankingPoints, 
+        token: token })
     })
   } catch (error) {
     res.status(500).send(error.message)
