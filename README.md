@@ -39,7 +39,7 @@ DELETE | /address/:id      | YES   | admin | Delete One User Address|           
 
 METHOD | ENDPOINT         | TOKEN | ROLE  | DESCRIPTION          | POST PARAMS                                  | RETURNS
 -------|------------------|-------|-------|----------------------|----------------------------------------------|--------------------
-POST   | /container       | YES   | admin | Create one container |  `adress`,`fleet assignment`                 | {msg: string, {container}}
+POST   | /container       | YES   | admin | Create one container |  `street`, `city`, `fleet assignment`                 | {msg: string, {container}}
 GET    | /container       | YES   | admin | Get all containers   |  `query params`                              | [{Containers}]
 GET    | /container/:id   | YES   | admin | Get one container    |                                              | {Containers}
 PUT    | /container/:id   | YES   | admin | Update one container |  `adress`                                    | {msg: string, {container}}

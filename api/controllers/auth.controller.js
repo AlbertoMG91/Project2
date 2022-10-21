@@ -9,10 +9,10 @@ const redis = require ('redis')
 async function signup (req, res) {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, 10)
-    const user = await User.create( req.body,
-      { 
+    const user = await User.create(req.body,
+        {
         fields: ['name', 'email', 'password', 'phone']
-      })
+    })
 
     const payload = { email: user.email }
     const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' })
@@ -40,13 +40,15 @@ async function login (req, res) {
       const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '1h' })
 
       return res.status(200).json({ 
+        msg: 'Logged in',
         name: user.name, 
         email: user.email, 
         phone: user.phone, 
         address: user.address, 
         digitalWallet: user.digitalWallet, 
-        rankingPoints: user.rankingPoints, 
-        token: token })
+        rankingPoints: user.rankingPoints,
+        token: token
+      })
     })
   } catch (error) {
     res.status(500).send(error.message)

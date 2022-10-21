@@ -1,11 +1,16 @@
 const { DataTypes } = require ('sequelize')
-const {sequelize } = require ('../../database')
+const { sequelize } = require ('../../database')
 
 const Container = sequelize.define(
     'container',
     {
-        address: {
+        city: {
             type: DataTypes.STRING,
+            allowNull: false
+        },
+        street: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     },
     { timestamps: false }
