@@ -1,10 +1,12 @@
 const User = require ('../models/user.model')
+const Address = require ('../models/address.model')
 
 async function getOwnProfile (req, res) {
     try {
         const user = await User.findByPk(res.locals.user.id, {
+            include: Address,
             attributes: {
-                exclude: ['id', 'password', 'role']
+                exclude: ['id', 'password', 'role',]
             }
         }) 
         return !user ? res.status(404).send('No user found') : res.status(200).json(user)
@@ -62,6 +64,7 @@ async function updateUserById (req, res) {
 async function getAllUsers (req, res) {
     try {
         const users = await User.findAll({
+            include: Address,
             attributes: { exclude: ['password']
         }})
         return !users ? res.status(404).send('No users found') : res.status(200).json(users)
@@ -73,6 +76,7 @@ async function getAllUsers (req, res) {
 async function getUserById (req, res) {
     try {
         const user = await User.findByPk(req.params.id, {
+            include: Address,
             attributes: {
                 exclude: ['password']
             }
