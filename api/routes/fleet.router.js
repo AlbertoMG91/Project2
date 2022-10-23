@@ -3,10 +3,16 @@ const { checkAuth, checkRole } = require('../utils')
 
 const {
     addNewTruck,
-    updateTruckById
+    updateTruckById,
+    removeTruckById,
+    getFleet,
+    getTruckById
 } = require('../controllers/fleet.controller')
 
 router.post('/', checkAuth, checkRole, addNewTruck)
-router.patch('/', checkAuth, checkRole, updateTruckById)
+router.get('/', checkAuth, checkRole, getFleet)
+router.get('/:id', checkAuth, checkRole, getTruckById)
+router.patch('/:id', checkAuth, checkRole, updateTruckById)
+router.delete('/:id', checkAuth, checkRole, removeTruckById)
 
 module.exports = router

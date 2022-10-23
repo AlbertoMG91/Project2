@@ -46,8 +46,8 @@ async function updateUserById (req, res) {
             }
         })
         const data = user[0].dataValues
-        return !user ? res.status(404).send('No user found') : res.status(200).json({ 
-            msg: 'User updated',
+        return !user ? res.status(404).send('User not found') : res.status(200).json({ 
+            message: 'User updated',
             id: data.id, 
             role: data.role,
             name: data.name, 

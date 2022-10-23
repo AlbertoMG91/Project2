@@ -26,8 +26,42 @@ async function updateTruckById(req, res) {
     }
 }
 
+async function removeTruckById(req, res) {
+    try {
+        const truck = await Fleet.destroy({
+            where: {
+            id: req.params.id
+            }
+        })
+        return !truck ? res.status(404).send('Truck not found') : res.status(200).send('Truck removed')
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+}
+
+async function getFleet (req, res) {
+    try {
+        const fleet = await Fleet.findAll()
+        return !fleet ? res.status(404).send('Fleet not found') : res.status(200).json(fleet)
+    } catch (error) {
+      return res.status(500).send(error.message)
+    }
+}
+  
+async function getTruckById (req, res) {
+    try {
+        const truck = await Fleet.findByPk(req.params.id)
+        return !truck ? res.status(404).send('Track not found') : res.status(200).json({truck})
+    } catch (error) {
+      return res.status(500).send(error.message)
+    }
+}
+
 
 module.exports = {
     addNewTruck,
-    updateTruckById
+    updateTruckById,
+    removeTruckById,
+    getFleet,
+    getTruckById
 }
