@@ -8,14 +8,14 @@ const {
     updateAddressByUserId,
     getAllAddresses,
     deleteAddressByUserId,
-    //getNearbyContainers,
+    getNearbyContainers,
     registerAnAddress
 } = require('../controllers/address.controller')
 
 router.post('/profile', checkAuth, registerOwnAddress)
 router.post('/profile/:id', checkAuth, checkRole, registerAnAddress)
 router.get('/', checkAuth, checkRole, getAllAddresses)
-//router.get('/container', checkAuth, getNearbyContainers)
+router.get('/container', checkAuth, getNearbyContainers)
 router.patch('/profile', checkAuth, updateOwnAddress)
 router.patch('/profile/:id', checkAuth, checkRole, updateAddressByUserId)
 router.delete('/profile', checkAuth, deleteOwnAddress)

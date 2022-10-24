@@ -5,7 +5,7 @@ const User = require ('../models/user.model')
 async function registerOwnAddress (req, res) {
     try {
         const user = await User.findByPk(res.locals.user.id)
-        await user.createAddress(req.body)
+        const address = await user.createAddress(req.body)
         return res.status(200).json({message: 'New address registered', address: address})
     } catch (error) {
         return res.status(500).send(error.message)
@@ -17,14 +17,7 @@ async function registerAnAddress (req, res) {
         const user = await User.findByPk(req.params.id)
         const address = await Address.create(req.body)
         await user.setAddress(address)
-        const data = address[0].dataValues
-        return !user ? res.status(404).send('User not found') : res.status(200).json({ 
-            message: `User's address registered`,
-            street: data.street,
-            number: data.number,
-            flat: data.flat,
-            postalCode: data.postalCode,
-            city: data.city})
+        return !user ? res.status(404).send('User not found') : res.status(200).json({message: `User's address registered`, address})
     } catch (error) {
         return res.status(500).send(error.message)
     }
@@ -111,21 +104,24 @@ async function deleteAddressByUserId (req, res) {
     }
 }
 
-// async function getNearbyContainers(req, res) {
-//     try {
-//         const user = await User.findByPk(res.locals.user.id)
-//         const container = Container.findAll()
-//         const address = Address.findAll({
-//             where: {
-//                 city: data.city === city: data2.city
-//             }
-//         })
-//         const data = address[0].dataValues
-//         const data2 = container[0].dataValues
-//     } catch (error) {
-        
-//     }
-// }
+async function getNearbyContainers(req, res) {
+    try {
+        const user = await User.findByPk(res.locals.user.id)
+        const address = await Address.findOne({
+            where: {
+                userId: user.id
+            }
+        })
+        const container = await Container.findAll({
+            where: {
+                city: address.city
+            }
+        })
+        return res.status(200).json({container})
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+}
 
 module.exports = {
     registerOwnAddress,
@@ -134,6 +130,6 @@ module.exports = {
     updateAddressByUserId,
     getAllAddresses,
     deleteAddressByUserId,
-    //getNearbyContainers,
+    getNearbyContainers,
     registerAnAddress
 }

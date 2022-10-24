@@ -1,4 +1,5 @@
 const Fleet = require ('../models/fleet.model')
+const Date = require ('../models/date.model')
 
 async function addNewTruck(req, res) {
     try {
@@ -57,11 +58,23 @@ async function getTruckById (req, res) {
     }
 }
 
+async function assignTruckToDate (req, res) {
+    try {
+        const truck = await Fleet.findByPk(req.params.id)
+        const date = await Date.findByPk(req.body.dateId)
+        await date.setFleet(truck)
+        return !date ? res.status(404).send('Date not found') : res.status(200).json({message:'Truck assigned', truck: truck})
+    } catch (error) {
+      return res.status(500).send(error.message)
+    }
+}
+
 
 module.exports = {
     addNewTruck,
     updateTruckById,
     removeTruckById,
     getFleet,
-    getTruckById
+    getTruckById,
+    assignTruckToDate
 }

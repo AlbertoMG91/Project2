@@ -25,7 +25,7 @@ async function updateOwnProfile (req, res) {
         })
         const data = user[0].dataValues
         return !user ? res.status(404).send('No user found') : res.status(200).json({ 
-        msg: 'User updated', 
+        message: 'User updated', 
         name: data.name, 
         email: data.email, 
         phone: data.phone, 
