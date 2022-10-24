@@ -69,7 +69,6 @@ async function deleteOwnAddress (req, res) {
 
 async function updateAddressByUserId (req, res) {
     try {
-        const user = await User.findByPk(res.locals.user.id)
         const [,address] = await Address.update(req.body, {
             returning: true,
             where: {
@@ -115,14 +114,14 @@ async function deleteAddressByUserId (req, res) {
 // async function getNearbyContainers(req, res) {
 //     try {
 //         const user = await User.findByPk(res.locals.user.id)
-//         const data = address[0].dataValues
-//         const data2 = container[0].dataValues
 //         const container = Container.findAll()
 //         const address = Address.findAll({
 //             where: {
 //                 city: data.city === city: data2.city
 //             }
 //         })
+//         const data = address[0].dataValues
+//         const data2 = container[0].dataValues
 //     } catch (error) {
         
 //     }

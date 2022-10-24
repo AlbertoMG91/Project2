@@ -6,12 +6,8 @@ const Date = sequelize.define(
     {
         date: {
             type: DataTypes.DATE,
-        },
-        address: {
-            type: DataTypes.STRING
         }
-    },
-    { timestamps: false }
+    }
 )
 
 module.exports = Date

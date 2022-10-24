@@ -10,7 +10,7 @@ const {
     deleteAddressByUserId,
     //getNearbyContainers,
     registerAnAddress
-  } = require('../controllers/address.controller')
+} = require('../controllers/address.controller')
 
 router.post('/profile', checkAuth, registerOwnAddress)
 router.post('/profile/:id', checkAuth, checkRole, registerAnAddress)
