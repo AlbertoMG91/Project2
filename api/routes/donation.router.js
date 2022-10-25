@@ -24,8 +24,8 @@ router.get('/', checkAuth, checkRole, getAllDonations)
 router.get('/ranking', checkAuth, getRanking)
 router.get('/coins/:id', checkAuth, checkRole, getAllDonationsByUserId)
 router.get('/:id', checkAuth, getDonationById)
-router.patch('/:id',checkAuth, checkRole, updateDonationById)
 router.patch('/coins',checkAuth, claimCoins)
+router.patch('/:id',checkAuth, checkRole, updateDonationById)
 router.delete('/:id',checkAuth, checkRole, deleteDonationById)
 
 

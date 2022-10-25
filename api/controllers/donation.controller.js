@@ -1,26 +1,60 @@
 const Donation = require('../models/donation.model')
 const User = require('../models/user.model')
 
-async function donateCoins (req, res) { //descontar de la wallet  // Añadir puntos al donar
+
+async function walletUpdate (user, donation) {
+    const coins = user.digitalWallet - donation.quantity 
+    const [,wallet] = await User.update({digitalWallet: coins},{
+        returning: true,
+        where: {
+            id: user.id
+        }
+    })
+    return wallet[0].dataValues.digitalWallet
+}
+function pointsUpdate (user, donation) {
+    const points = user.rankingPoints + donation.quantity
+    const rankingP = User.update({rankingPoints: points}, {
+        where: {
+            id: user.id
+        }
+    })
+    donation.points = donation.quantity
+}
+
+function digitalWalletUpdate (user, donation) {
+    const points = user.digitalWallet + donation.quantity
+    const rankingP = User.update({digitalWallet: points}, {
+        where: {
+            id: user.id
+        }
+    })
+    donation.points = donation.quantity
+}
+
+async function donateCoins (req, res) {
     try {
         const user = await User.findByPk(res.locals.user.id)
         const donate = await user.createDonation(req.body, {
             fields: ['quantity']
         })
         const donation = await Donation.findOne({
+            where: {
+                id: donate.id
+            },
             attributes: {
                 exclude: ['coins']
             }
-        }) 
-        // const wallet = await User.findByPk(res.locals.user.digitalWallet)
-        // wallet -= donation.quantity
-        return !user ? res.status(404).send('User not found') : res.status(200).json({message: 'New donation registered', donate}) //No cambia la donacion en Postman.
+        })
+        walletUpdate(user, donation)
+        pointsUpdate(user, donation)
+        return !user ? res.status(404).send('User not found') : res.status(200).json({message: 'New donation registered', donation})
     } catch (error) {
         return res.status(500).send(error.message)
     }
 }
 
-async function donateCoinsByUserId (req, res) {  //descontar de la wallet // Añadir puntos al donar
+async function donateCoinsByUserId (req, res) {
     try {
         const user = await User.findByPk(req.params.id)
         const donate = await user.createDonation(req.body, {
@@ -31,18 +65,30 @@ async function donateCoinsByUserId (req, res) {  //descontar de la wallet // Añ
                 exclude: ['coins']
             }
         })
-        return !user ? res.status(404).send('User not found') : res.status(200).json({message: 'New donation registered', donate})
+        walletUpdate(user, donation)
+        pointsUpdate(user, donation)
+        return !user ? res.status(404).send('User not found') : res.status(200).json({message: 'New donation registered', donation})
     } catch (error) {
         return res.status(500).send(error.message)
     }
 }
 
-async function claimCoins (req, res) {  //descontar de la wallet
+async function claimCoins (req, res) {
     try {
-        const user = await User.update(res.locals.user.digitalWallet,{
-            fields: ['digitalWallet']
+        const user = await User.findByPk(res.locals.user.id)
+        const donate = await user.createDonation(req.body, {
+            fields: ['quantity']
         })
-        return !user ? res.status(404).send('User not found') : res.status(200).json(digitalWallet)
+        const donation = await Donation.findOne({
+            where: {
+                id: donate.id
+            },
+            attributes: {
+                exclude: ['coins']
+            }
+        })
+        const coins = await walletUpdate(user, donation)
+        return !user ? res.status(404).send('User not found') : res.status(200).json({message: `Coins claimed`, coins: coins})
     } catch (error) {
         return res.status(500).send(error.message)
     }
@@ -95,15 +141,16 @@ async function getDonationById (req, res) {
         return res.status(500).send(error.message)
     }
 }
-// Arreglar el Return.
+
 async function updateDonationById (req, res) {
     try {
-        const [,donation] = await Donation.update(req.body, {
+        const [exist, donation] = await Donation.update(req.body, {
+            returning: true,
             where: {
                 id: req.params.id
             }
         })
-        return ![,donation] ? res.status(404).send('No donation found') : res.status(200).json([,donation])
+        return !exist ? res.status(404).send('No donation found') : res.status(200).json(donation)
     } catch (error) {
         return res.status(500).send(error.message)
     }
@@ -122,11 +169,17 @@ async function deleteDonationById (req, res) {
     }
 }
 
-async function donateClothes (req, res) {  // Añadir puntos al donar
+async function donateClothes (req, res) {
     try {
         const user = await User.findByPk(req.params.id)
-        const donate = await user.createDonation(req.body)
-        return !user ? res.status(404).send('User not found') : res.status(200).json({message: 'New donation registered', donate})
+        const donation = await user.createDonation(req.body, {
+            where: {
+                userId: user.id
+            }
+        })
+        pointsUpdate(user, donation)
+        digitalWalletUpdate (user, donation)
+        return !user ? res.status(404).send('User not found') : res.status(200).json({message: 'New donation registered', donation})
     } catch (error) {
         return res.status(500).send(error.message)
     }
