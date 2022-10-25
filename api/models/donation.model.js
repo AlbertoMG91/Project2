@@ -6,6 +6,7 @@ const Donation = sequelize.define(
     {
         type: {
             type: DataTypes.ENUM ('coin', 'clothes'),
+            defaultValue: 'coin',
             allowNull: false
         },
         quantity: {
@@ -13,7 +14,8 @@ const Donation = sequelize.define(
             allowNull: false
         },
         coins: {
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            defaultValue: 0
         },
         points: {
             type: DataTypes.INTEGER

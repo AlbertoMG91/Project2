@@ -7,13 +7,15 @@ const {
     removeTruckById,
     getFleet,
     getTruckById,
-    assignTruckToDate
+    updateTruckToDate,
+    updateTruckToContainer
 } = require('../controllers/fleet.controller')
 
 router.post('/', checkAuth, checkRole, addNewTruck)
-router.post('/:id', checkAuth, checkRole, assignTruckToDate)
 router.get('/', checkAuth, checkRole, getFleet)
 router.get('/:id', checkAuth, checkRole, getTruckById)
+router.patch('/date/:id', checkAuth, checkRole, updateTruckToDate)
+router.patch('/container/:id', checkAuth, checkRole, updateTruckToContainer)
 router.patch('/:id', checkAuth, checkRole, updateTruckById)
 router.delete('/:id', checkAuth, checkRole, removeTruckById)
 
