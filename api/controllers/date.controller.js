@@ -67,22 +67,25 @@ async function getAllDates (req, res) {
 
 async function updateOwnDate (req, res) {
     try {
-        const user = await User.findByPk(res.locals.user.id)
-        const [,date] = await Date.update(req.body, {
-            returning: true,
-            where: {
-            userId: res.locals.user.id
-            },
-            where: {
-            id: req.params.id
-            }        
-        })
-        const data = date[0].dataValues
-        return !date ? res.status(404).send('No date found') : res.status(200).json({message: 'date updated', date: data.dataValues})
+        const appointment = await Date.findByPk(req.params.id)
+        if (appointment.userId !== res.locals.user.id){
+            return res.status(401).send('Not your date')
+        } else {
+            const [exist,date] = await Date.update(req.body, {
+                returning: true,
+                where: {
+                id: req.params.id
+                }
+            })
+            const data = date[0].dataValues
+            return !exist ? res.status(404).send('No date found') : res.status(200).json({message: 'date updated', date: data})
+        }
+
     } catch (error) {
         return res.status(500).send(error.message)
     }
 }
+
 async function updateAdateByUserId (req, res) {
     try {
         const [,date] = await Date.update(req.body, {
